@@ -3,10 +3,14 @@ import { strerror, VERSION } from "./utils.ts";
 import { Command } from "commander";
 import express from "express";
 
-const program = new Command().option("-p, --port <PORT>").parse();
+program
+  .option("-p, --port <PORT>", "Port number", "4416")
+  .option("-h, --host <HOST>", "Host address", "127.0.0.1")
+  .parse();
 
 const options = program.opts();
 
+const HOST = option.host || "127.0.0.1";
 const PORT_NUMBER = options.port || 4416;
 
 const httpServer = express();
@@ -16,17 +20,17 @@ httpServer.use(express.urlencoded({ extended: true }));
 httpServer
     .listen(
         {
-            host: "::",
+            host: HOST,
             port: PORT_NUMBER,
         },
         (err) => {
             if (err) {
                 console.error(
-                    `Could not listen on [::]:${PORT_NUMBER}, falling back to 0.0.0.0 (Caused by ${strerror(err)})`,
+                    `Could not listen on ${HOST}:${PORT_NUMBER}, falling back to 127.0.0.1 (Caused by ${strerror(err)})`,
                 );
             } else {
                 console.log(
-                    `Started POT server (v${VERSION}) on on address [::]:${PORT_NUMBER}`,
+                    `Started POT server (v${VERSION}) on on address ${HOST}:${PORT_NUMBER}`,
                 );
             }
         },
@@ -36,17 +40,17 @@ httpServer
         // this is temporary as we plan to bind to localhost in the next major version
         httpServer.listen(
             {
-                host: "0.0.0.0",
+                host: HOST,
                 port: PORT_NUMBER,
             },
             (err) => {
                 if (err) {
                     console.error(
-                        `Could not listen on [::]:${PORT_NUMBER} (Caused by ${strerror(err)})`,
+                        `Could not listen on ${HOST}:${PORT_NUMBER} (Caused by ${strerror(err)})`,
                     );
                 } else {
                     console.log(
-                        `Started POT server (v${VERSION}) on address 0.0.0.0:${PORT_NUMBER}`,
+                        `Started POT server (v${VERSION}) on address ${HOST}:${PORT_NUMBER}`,
                     );
                 }
             },
