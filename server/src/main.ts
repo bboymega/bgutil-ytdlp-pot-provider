@@ -3,10 +3,7 @@ import { strerror, VERSION } from "./utils.ts";
 import { Command } from "commander";
 import express from "express";
 
-const program
-  .option("-p, --port <PORT>", "Port number", "4416")
-  .option("-h, --host <HOST>", "Host address", "127.0.0.1")
-  .parse();
+const program = new Command().option("-p, --port <PORT>", "Port number", "4416").option("-h, --host <HOST>", "Host address", "127.0.0.1").parse();
 
 const options = program.opts();
 
