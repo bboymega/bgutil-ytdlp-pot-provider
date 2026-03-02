@@ -1,0 +1,15 @@
+[Unit]
+Description=Deno BGUtil YT-DLP POT Provider
+After=network.target
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/bgutil-ytdlp-pot-provider
+ExecStart=/usr/local/bin/deno run --allow-env --allow-net --allow-ffi=. --allow-read=. /var/www/bgutil-ytdlp-pot-provider/src/main.ts
+Restart=always
+RestartSec=5
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=HOME=/var/www/bgutil-ytdlp-pot-provider
+[Install]
+WantedBy=multi-user.target
